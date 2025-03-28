@@ -6,21 +6,37 @@ class ContactController {
     res.json(contacts);
   }
 
-  // async show(req, res) {
+  async show(req, res) {
+    const { id } = req.params;
+    const contact = await ContactRepository.getById(id);
 
-  // }
+    if (!contact) {
+      return res.status(404).json({ error: 'Contact not found' });
+    }
 
-  // async store(req, res) {
+    res.json(contact);
+  }
 
-  // }
+  async store() {
 
-  // async update(req, res) {
+  }
 
-  // }
+  async update() {
 
-  // async delete(req, res) {
+  }
 
-  // }
+  async delete(req, res) {
+    const { id } = req.params;
+    const contact = await ContactRepository.getById(id);
+
+    if (!contact) {
+      return res.status(404).json({ error: 'Contact not found' });
+    }
+
+    await ContactRepository.delete(id);
+    res.status(204).send();
+
+  }
 }
 
 
