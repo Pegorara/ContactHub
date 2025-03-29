@@ -40,8 +40,29 @@ class ContactController {
     res.status(201).json(contact);
   }
 
-  async update() {
+  async update(req, res) {
+    const { id } = req.params;
+    const { name, email, phone, category_id } = req.body;
 
+    const contactExists = await ContactRepository.getById(id);
+    if (!contactExists) {
+      return res.status(404).json({ error: 'Contact not found' });
+    }
+
+    if (!name || !email || !phone || !category_id) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+    const contactByEmail = await ContactRepository.getByEmail(email);
+    if (contactByEmail && contactByEmail.id !== id) {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
+    const updatedContact = await ContactRepository.update(id, {
+      name,
+      email,
+      phone,
+      category_id,
+    });
+    res.json(updatedContact);
   }
 
   async delete(req, res) {
