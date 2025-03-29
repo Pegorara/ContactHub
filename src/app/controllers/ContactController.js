@@ -17,8 +17,27 @@ class ContactController {
     res.json(contact);
   }
 
-  async store() {
+  async store(req, res) {
+    const { name, email, phone, category_id } = req.body;
 
+    if (!name || !email || !phone || !category_id) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    const existingContact = await ContactRepository.getByEmail(email);
+
+    if (existingContact) {
+      return res.status(400).json({ error: 'Email already registered' });
+    }
+
+    const contact = await ContactRepository.create({
+      name,
+      email,
+      phone,
+      category_id,
+    });
+
+    res.status(201).json(contact);
   }
 
   async update() {
@@ -38,6 +57,5 @@ class ContactController {
 
   }
 }
-
 
 module.exports = new ContactController();
