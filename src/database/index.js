@@ -14,7 +14,7 @@ client.connect()
   .then(() => console.log('Connected to PostgreSQL database'))
   .catch((err) => console.error('Connection error', err.stack));
 
-exports.query = async (query) => {
-  const { rows } = await client.query(query);
+exports.query = async (query, values) => {
+  const { rows } = await client.query(query, values);
   return rows;
 }
