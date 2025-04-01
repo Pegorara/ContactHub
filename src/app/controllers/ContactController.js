@@ -20,8 +20,12 @@ class ContactController {
   async store(req, res) {
     const { name, email, phone, category_id } = req.body;
 
-    if (!name || !email || !phone || !category_id) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!name) {
+      return res.status(400).json({ error: 'Name is required' });
+    }
+
+    if (!email && !phone) {
+      return res.status(400).json({ error: 'At least one contact method (email or phone) is required' });
     }
 
     const existingContact = await ContactRepository.getByEmail(email);
