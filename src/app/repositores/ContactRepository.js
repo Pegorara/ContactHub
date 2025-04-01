@@ -17,11 +17,6 @@ class ContactRepository {
     return row;
   }
 
-  async delete(id) {
-    const deleteOperation = await db.query('DELETE FROM contacts WHERE id = $1', [id]);
-    return deleteOperation.rowCount > 0;
-  }
-
   async create({ name, email, phone, category_id }) {
     const [row] = await db.query(
       `INSERT INTO contacts (name, email, phone, category_id)
@@ -31,19 +26,20 @@ class ContactRepository {
     return row;
   }
 
-  update(id, { name, email, phone, category_id }) {
-    return new Promise((resolve) => {
-      const updateContact = {
-        id,
-        name,
-        email,
-        phone,
-        category_id,
-      };
+  async update(id, { name, email, phone, category_id }) {
+    const [row] = await db.query(
+      `UPDATE contacts
+      SET name = $1, email = $2, phone = $3, category_id = $4
+      WHERE id = $5
+      RETURNING *`,
+      [name, email, phone, category_id, id]
+    );
+    return row;
+  }
 
-      contacts = contacts.map((contact) => (contact.id === id ? updateContact : contact));
-      resolve(updateContact);
-    });
+  async delete(id) {
+    const deleteOperation = await db.query('DELETE FROM contacts WHERE id = $1', [id]);
+    return deleteOperation.rowCount > 0;
   }
 }
 
