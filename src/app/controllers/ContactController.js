@@ -54,9 +54,14 @@ class ContactController {
       return res.status(404).json({ error: 'Contact not found' });
     }
 
-    if (!name || !email || !phone || !category_id) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!name) {
+      return res.status(400).json({ error: 'Name is required' });
     }
+
+    if (!email && !phone) {
+      return res.status(400).json({ error: 'At least one contact method (email or phone) is required' });
+    }
+  
     const contactByEmail = await ContactRepository.getByEmail(email);
     if (contactByEmail && contactByEmail.id !== id) {
       return res.status(400).json({ error: 'Email already registered' });
