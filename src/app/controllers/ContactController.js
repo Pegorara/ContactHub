@@ -1,4 +1,4 @@
-const ContactRepository = require('../repositores/ContactRepository');
+const ContactRepository = require('../repositores/ContactsRepository');
 
 class ContactController {
   async index(req, res) {
@@ -61,7 +61,7 @@ class ContactController {
     if (!email && !phone) {
       return res.status(400).json({ error: 'At least one contact method (email or phone) is required' });
     }
-  
+
     const contactByEmail = await ContactRepository.getByEmail(email);
     if (contactByEmail && contactByEmail.id !== id) {
       return res.status(400).json({ error: 'Email already registered' });

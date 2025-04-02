@@ -1,5 +1,5 @@
 const db = require('../../database');
-class ContactRepository {
+class ContactsRepository {
   async getAll(orderBy = 'ASC') {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
     const rows = await db.query(`SELECT * FROM contacts ORDER BY name ${direction}`);
@@ -43,4 +43,4 @@ class ContactRepository {
   }
 }
 
-module.exports = new ContactRepository();
+module.exports = new ContactsRepository();
