@@ -3,7 +3,17 @@ const db = require('../../database');
 class CategoriesRepository {
   async getAll() {
     const rows = await db.query(`SELECT * FROM categories ORDER BY name`);
-    return rows;
+    return rows.length ? rows : null;
+  }
+
+  async getById(id) {
+    const [row] = await db.query(`SELECT * FROM categories WHERE id = $1`, [id]);
+    return row;
+  }
+
+  async getByName(name) {
+    const [row] = await db.query(`SELECT * FROM categories WHERE name = $1`, [name]);
+    return row;
   }
 
   async create({ name }) {
@@ -16,7 +26,25 @@ class CategoriesRepository {
     return row;
   }
 
-}
+  async update(id, { name }) {
+    const [row] = await db.query(
+      `UPDATE categories
+      SET name = $1
+      WHERE id = $2
+      RETURNING *`,
+      [name, id]
+    );
+    return row;
+  }
 
+  async delete(id) {
+    const [row] = await db.query(
+      `DELETE FROM categories WHERE id = $1`,
+      [id]
+    );
+    return row || null
+  }
+
+}
 
 module.exports = new CategoriesRepository();
