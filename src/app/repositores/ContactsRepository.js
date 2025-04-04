@@ -1,4 +1,5 @@
 const db = require('../../database');
+
 class ContactsRepository {
   async getAll(orderBy = 'ASC') {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
@@ -48,7 +49,7 @@ class ContactsRepository {
 
   async delete(id) {
     const deleteOperation = await db.query('DELETE FROM contacts WHERE id = $1', [id]);
-    return deleteOperation.rowCount > 0;
+    return deleteOperation;
   }
 }
 

@@ -1,4 +1,5 @@
 const ContactRepository = require('../repositores/ContactsRepository');
+const AppError = require('../../helpers/AppError');
 
 class ContactController {
   async index(req, res) {
@@ -12,7 +13,7 @@ class ContactController {
     const contact = await ContactRepository.getById(id);
 
     if (!contact) {
-      return res.status(404).json({ error: 'Contact not found' });
+      throw new AppError('Contact not found', 404);
     }
 
     res.json(contact);
@@ -22,17 +23,17 @@ class ContactController {
     const { name, email, phone, category_id } = req.body;
 
     if (!name) {
-      return res.status(400).json({ error: 'Name is required' });
+      throw new AppError('Name is required');
     }
 
     if (!email && !phone) {
-      return res.status(400).json({ error: 'At least one contact method (email or phone) is required' });
+      throw new AppError('At least one contact method (email or phone) is required');
     }
 
     const existingContact = await ContactRepository.getByEmail(email);
 
     if (existingContact) {
-      return res.status(400).json({ error: 'Email already registered' });
+      throw new AppError('Email already registered');
     }
 
     const contact = await ContactRepository.create({
@@ -47,25 +48,30 @@ class ContactController {
 
   async update(req, res) {
     const { id } = req.params;
+
+    console.log("ID recebido:", id);
     const { name, email, phone, category_id } = req.body;
 
     const contactExists = await ContactRepository.getById(id);
+    console.log("🔍 Contato encontrado:", contactExists);
+    
     if (!contactExists) {
-      return res.status(404).json({ error: 'Contact not found' });
+      throw new AppError('Contact not found', 404);
     }
 
     if (!name) {
-      return res.status(400).json({ error: 'Name is required' });
+      throw new AppError('Name is required');
     }
 
     if (!email && !phone) {
-      return res.status(400).json({ error: 'At least one contact method (email or phone) is required' });
+      throw new AppError('At least one contact method (email or phone) is required');
     }
 
     const contactByEmail = await ContactRepository.getByEmail(email);
     if (contactByEmail && contactByEmail.id !== id) {
-      return res.status(400).json({ error: 'Email already registered' });
+      throw new AppError('Email already registered');
     }
+
     const updatedContact = await ContactRepository.update(id, {
       name,
       email,
@@ -77,9 +83,16 @@ class ContactController {
 
   async delete(req, res) {
     const { id } = req.params;
-    await ContactRepository.delete(id);
-    res.status(204).send();
 
+    const wasDeleted = await ContactRepository.getById(id);
+
+    if (!wasDeleted) {
+      throw new AppError('Contact not found', 404);
+    }
+
+    await ContactRepository.delete(id);
+
+    res.status(204).send();
   }
 }
 
