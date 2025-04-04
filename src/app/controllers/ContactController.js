@@ -49,12 +49,10 @@ class ContactController {
   async update(req, res) {
     const { id } = req.params;
 
-    console.log("ID recebido:", id);
     const { name, email, phone, category_id } = req.body;
 
     const contactExists = await ContactRepository.getById(id);
-    console.log("🔍 Contato encontrado:", contactExists);
-    
+
     if (!contactExists) {
       throw new AppError('Contact not found', 404);
     }
