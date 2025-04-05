@@ -1,6 +1,5 @@
 const CategoriesRepository = require('../repositores/CategoriesRepository');
 const AppError = require('../../helpers/AppError');
-
 class CategoryController {
   async index(req, res) {
     const categories = await CategoriesRepository.getAll();
@@ -9,10 +8,6 @@ class CategoryController {
 
   async store(req, res) {
     const { name } = req.body;
-
-    if (!name) {
-      throw new AppError('Name is required');
-    }
 
     const existingCategory = await CategoriesRepository.getByName(name);
     if (existingCategory) {
@@ -37,10 +32,6 @@ class CategoryController {
   async update(req, res) {
     const { id } = req.params;
     const { name } = req.body;
-
-    if (!name) {
-      throw new AppError('Name is required');
-    }
 
     const existingCategory = await CategoriesRepository.getById(id);
     if (!existingCategory) {
