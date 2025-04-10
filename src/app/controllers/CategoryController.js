@@ -33,13 +33,18 @@ class CategoryController {
     const { id } = req.params;
     const { name } = req.body;
 
-    const existingCategory = await CategoriesRepository.getById(id);
-    if (!existingCategory) {
+    const category = await CategoriesRepository.getById(id);
+    if (!category) {
       throw new AppError('Category not found', 404);
     }
 
-    const category = await CategoriesRepository.update(id, { name });
-    res.json(category);
+    const categoryWithSameName = await CategoriesRepository.getByName(name);
+    if (categoryWithSameName && categoryWithSameName.id !== id) {
+      throw new AppError('Category already exists', 400);
+    }
+
+    const updatedCategory = await CategoriesRepository.update(id, { name });
+    res.json(updatedCategory);
   }
 
   async delete(req, res) {
@@ -50,9 +55,15 @@ class CategoryController {
       throw new AppError('Category not found', 404);
     }
 
+    const hasContacts = await CategoriesRepository.hasContacts(id);
+    if (hasContacts) {
+      throw new AppError('Cannot delete category with associated contacts', 400);
+    }
+
     await CategoriesRepository.delete(id);
     res.status(204).send();
   }
+
 }
 
 module.exports = new CategoryController();

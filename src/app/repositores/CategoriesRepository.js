@@ -3,7 +3,7 @@ const db = require('../../database');
 class CategoriesRepository {
   async getAll() {
     const rows = await db.query(`SELECT * FROM categories ORDER BY name`);
-    return rows.length ? rows : null;
+    return rows;
   }
 
   async getById(id) {
@@ -44,6 +44,15 @@ class CategoriesRepository {
     );
     return row || null
   }
+
+  async hasContacts(id) {
+    const [row] = await db.query(
+      `SELECT 1 FROM contacts WHERE category_id = $1 LIMIT 1`,
+      [id]
+    );
+    return !!row;
+  }
+
 
 }
 
