@@ -117,9 +117,6 @@ describe('CategoryController', () => {
         ['John Doe', 'john@example.com', '123456789', categoryId]
       );
 
-      const contactsCheck = await db.query(`SELECT * FROM contacts WHERE category_id = $1`, [categoryId]);
-      console.log('Contatos associados antes do delete:', contactsCheck);
-
       const response = await request(app).delete(`/categories/${categoryId}`);
 
       expect(response.status).toBe(400);
