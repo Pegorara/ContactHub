@@ -4,14 +4,12 @@ const db = require('../../database');
 class ContactsRepository {
   async getAll(orderBy = 'ASC') {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
-    console.log('ORDER BY:', direction);
     const rows = await db.query(
       `SELECT contacts.*, categories.name AS category_name
       FROM contacts
       LEFT JOIN categories ON categories.id = contacts.category_id
       ORDER BY COALESCE(categories.name, '') ${direction}`
     );
-    console.log(rows);
     return rows;
   }
 
