@@ -1,6 +1,6 @@
-const ContactRepository = require('../repositores/ContactsRepository');
+const ContactRepository = require('../repositories/ContactsRepository');
+const CategoriesRepository = require('../repositories/CategoriesRepository');
 const AppError = require('../../helpers/AppError');
-
 class ContactController {
   async index(req, res) {
     const { orderBy } = req.query;
@@ -30,10 +30,23 @@ class ContactController {
       throw new AppError('At least one contact method (email or phone) is required');
     }
 
-    const existingContact = await ContactRepository.getByEmail(email);
+    if (category_id) {
+      const category = await CategoriesRepository.getById(category_id);
+      if (!category) {
+        throw new AppError('Category not found', 400);
+      }
+    }
 
-    if (existingContact) {
+    const existingContactByEmail = await ContactRepository.getByEmail(email);
+    if (existingContactByEmail) {
       throw new AppError('Email already registered');
+    }
+
+    if (phone) {
+      const existingContactByPhone = await ContactRepository.getByPhone(phone);
+      if (existingContactByPhone) {
+        throw new AppError('Phone number already registered');
+      }
     }
 
     const contact = await ContactRepository.create({
@@ -48,7 +61,6 @@ class ContactController {
 
   async update(req, res) {
     const { id } = req.params;
-
     const { name, email, phone, category_id } = req.body;
 
     const contactExists = await ContactRepository.getById(id);
@@ -65,9 +77,23 @@ class ContactController {
       throw new AppError('At least one contact method (email or phone) is required');
     }
 
+    if (category_id) {
+      const category = await CategoriesRepository.getById(category_id);
+      if (!category) {
+        throw new AppError('Category not found', 400);
+      }
+    }
+
     const contactByEmail = await ContactRepository.getByEmail(email);
     if (contactByEmail && contactByEmail.id !== id) {
       throw new AppError('Email already registered');
+    }
+
+    if (phone) {
+      const contactByPhone = await ContactRepository.getByPhone(phone);
+      if (contactByPhone && contactByPhone.id !== id) {
+        throw new AppError('Phone number already registered');
+      }
     }
 
     const updatedContact = await ContactRepository.update(id, {

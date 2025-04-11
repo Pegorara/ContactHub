@@ -1,4 +1,4 @@
-const CategoriesRepository = require('../repositores/CategoriesRepository');
+const CategoriesRepository = require('../repositories/CategoriesRepository');
 const AppError = require('../../helpers/AppError');
 class CategoryController {
   async index(req, res) {
