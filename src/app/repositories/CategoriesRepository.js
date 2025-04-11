@@ -16,6 +16,14 @@ class CategoriesRepository {
     return row;
   }
 
+  async hasContacts(id) {
+    const [row] = await db.query(
+      `SELECT 1 FROM contacts WHERE category_id = $1 LIMIT 1`,
+      [id]
+    );
+    return !!row;
+  }
+
   async create({ name }) {
     const [row] = await db.query(
       `INSERT INTO categories (name)
@@ -44,16 +52,6 @@ class CategoriesRepository {
     );
     return row || null
   }
-
-  async hasContacts(id) {
-    const [row] = await db.query(
-      `SELECT 1 FROM contacts WHERE category_id = $1 LIMIT 1`,
-      [id]
-    );
-    return !!row;
-  }
-
-
 }
 
 module.exports = new CategoriesRepository();

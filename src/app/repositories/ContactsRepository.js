@@ -1,24 +1,28 @@
+// src/app/repositories/ContactsRepository.js
 const db = require('../../database');
 
 class ContactsRepository {
   async getAll(orderBy = 'ASC') {
     const direction = orderBy.toUpperCase() === 'DESC' ? 'DESC' : 'ASC';
-    const rows = await db.query(`
-      SELECT contacts.*, categories.name AS category_name
+    console.log('ORDER BY:', direction);
+    const rows = await db.query(
+      `SELECT contacts.*, categories.name AS category_name
       FROM contacts
       LEFT JOIN categories ON categories.id = contacts.category_id
-      ORDER BY categories.name ${direction}
-    `);
+      ORDER BY COALESCE(categories.name, '') ${direction}`
+    );
+    console.log(rows);
     return rows;
-
   }
 
   async getById(id) {
-    const [row] = await db.query(`
-      SELECT contacts.*, categories.name AS category_name
+    const [row] = await db.query(
+      `SELECT contacts.*, categories.name AS category_name
       FROM contacts
       LEFT JOIN categories ON categories.id = contacts.category_id
-      WHERE contacts.id = $1`, [id]);
+      WHERE contacts.id = $1`,
+      [id]
+    );
     return row;
   }
 
@@ -27,12 +31,17 @@ class ContactsRepository {
     return row;
   }
 
+  async getByPhone(phone) {
+    const [row] = await db.query('SELECT * FROM contacts WHERE phone = $1', [phone]);
+    return row;
+  }
+
   async create({ name, email, phone, category_id }) {
     const [row] = await db.query(
       `INSERT INTO contacts (name, email, phone, category_id)
       VALUES ($1, $2, $3, $4) RETURNING *`,
-      [name, email, phone, category_id]);
-
+      [name, email, phone, category_id]
+    );
     return row;
   }
 
