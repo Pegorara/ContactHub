@@ -1,7 +1,5 @@
 # ContactHub
 
-# ContactHub
-
 Aplicação de gerenciamento de contatos com categorias personalizadas.
 
 ## 🧠 Visão Geral
