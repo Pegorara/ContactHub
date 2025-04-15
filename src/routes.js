@@ -12,16 +12,16 @@ const router = Router();
  * @swagger
  * tags:
  *   - name: Contacts
- *     description: Gerenciamento de contatos
+ *     description: Contact management
  *   - name: Categories
- *     description: Gerenciamento de categorias
+ *     description: Category management
  */
 
 /**
  * @swagger
  * /contacts:
  *   get:
- *     summary: Lista todos os contatos
+ *     summary: Get all contacts
  *     tags: [Contacts]
  *     parameters:
  *       - in: query
@@ -29,10 +29,10 @@ const router = Router();
  *         schema:
  *           type: string
  *           enum: [asc, desc]
- *         description: Ordenar por nome
+ *         description: Sort by category name
  *     responses:
  *       200:
- *         description: Lista de contatos
+ *         description: List of contacts
  */
 router.get('/contacts', ContactController.index);
 
@@ -40,7 +40,7 @@ router.get('/contacts', ContactController.index);
  * @swagger
  * /contacts/{id}:
  *   get:
- *     summary: Busca um contato pelo ID
+ *     summary: Get a contact by ID
  *     tags: [Contacts]
  *     parameters:
  *       - in: path
@@ -48,12 +48,12 @@ router.get('/contacts', ContactController.index);
  *         required: true
  *         schema:
  *           type: string
- *         description: ID do contato
+ *         description: Contact ID
  *     responses:
  *       200:
- *         description: Contato encontrado
+ *         description: Contact found
  *       404:
- *         description: Contato não encontrado
+ *         description: Contact not found
  */
 router.get('/contacts/:id', ContactController.show);
 
@@ -61,7 +61,7 @@ router.get('/contacts/:id', ContactController.show);
  * @swagger
  * /contacts:
  *   post:
- *     summary: Cria um novo contato
+ *     summary: Create a new contact
  *     tags: [Contacts]
  *     requestBody:
  *       required: true
@@ -82,9 +82,9 @@ router.get('/contacts/:id', ContactController.show);
  *                 type: string
  *     responses:
  *       201:
- *         description: Contato criado
+ *         description: Contact created
  *       400:
- *         description: Dados inválidos
+ *         description: Invalid data
  */
 router.post('/contacts', validateContact, ContactController.store);
 
@@ -92,7 +92,7 @@ router.post('/contacts', validateContact, ContactController.store);
  * @swagger
  * /contacts/{id}:
  *   put:
- *     summary: Atualiza um contato
+ *     summary: Update a contact
  *     tags: [Contacts]
  *     parameters:
  *       - in: path
@@ -100,6 +100,7 @@ router.post('/contacts', validateContact, ContactController.store);
  *         required: true
  *         schema:
  *           type: string
+ *         description: Contact ID
  *     requestBody:
  *       required: true
  *       content:
@@ -117,9 +118,11 @@ router.post('/contacts', validateContact, ContactController.store);
  *                 type: string
  *     responses:
  *       200:
- *         description: Contato atualizado
+ *         description: Contact updated
+ *       400:
+ *         description: Invalid data
  *       404:
- *         description: Contato não encontrado
+ *         description: Contact not found
  */
 router.put('/contacts/:id', validateContact, ContactController.update);
 
@@ -127,7 +130,7 @@ router.put('/contacts/:id', validateContact, ContactController.update);
  * @swagger
  * /contacts/{id}:
  *   delete:
- *     summary: Deleta um contato
+ *     summary: Delete a contact
  *     tags: [Contacts]
  *     parameters:
  *       - in: path
@@ -135,11 +138,12 @@ router.put('/contacts/:id', validateContact, ContactController.update);
  *         required: true
  *         schema:
  *           type: string
+ *         description: Contact ID
  *     responses:
  *       204:
- *         description: Contato deletado com sucesso
+ *         description: Contact deleted
  *       404:
- *         description: Contato não encontrado
+ *         description: Contact not found
  */
 router.delete('/contacts/:id', ContactController.delete);
 
@@ -147,11 +151,11 @@ router.delete('/contacts/:id', ContactController.delete);
  * @swagger
  * /categories:
  *   get:
- *     summary: Lista todas as categorias
+ *     summary: Get all categories
  *     tags: [Categories]
  *     responses:
  *       200:
- *         description: Lista de categorias
+ *         description: List of categories
  */
 router.get('/categories', CategoryController.index);
 
@@ -159,7 +163,7 @@ router.get('/categories', CategoryController.index);
  * @swagger
  * /categories/{id}:
  *   get:
- *     summary: Busca uma categoria pelo ID
+ *     summary: Get a category by ID
  *     tags: [Categories]
  *     parameters:
  *       - in: path
@@ -167,11 +171,12 @@ router.get('/categories', CategoryController.index);
  *         required: true
  *         schema:
  *           type: string
+ *         description: Category ID
  *     responses:
  *       200:
- *         description: Categoria encontrada
+ *         description: Category found
  *       404:
- *         description: Categoria não encontrada
+ *         description: Category not found
  */
 router.get('/categories/:id', CategoryController.show);
 
@@ -179,7 +184,7 @@ router.get('/categories/:id', CategoryController.show);
  * @swagger
  * /categories:
  *   post:
- *     summary: Cria uma nova categoria
+ *     summary: Create a new category
  *     tags: [Categories]
  *     requestBody:
  *       required: true
@@ -194,9 +199,9 @@ router.get('/categories/:id', CategoryController.show);
  *                 type: string
  *     responses:
  *       201:
- *         description: Categoria criada
+ *         description: Category created
  *       400:
- *         description: Dados inválidos
+ *         description: Invalid data
  */
 router.post('/categories', validateCategory, CategoryController.store);
 
@@ -204,7 +209,7 @@ router.post('/categories', validateCategory, CategoryController.store);
  * @swagger
  * /categories/{id}:
  *   put:
- *     summary: Atualiza uma categoria
+ *     summary: Update a category
  *     tags: [Categories]
  *     parameters:
  *       - in: path
@@ -212,6 +217,7 @@ router.post('/categories', validateCategory, CategoryController.store);
  *         required: true
  *         schema:
  *           type: string
+ *         description: Category ID
  *     requestBody:
  *       required: true
  *       content:
@@ -223,9 +229,11 @@ router.post('/categories', validateCategory, CategoryController.store);
  *                 type: string
  *     responses:
  *       200:
- *         description: Categoria atualizada
+ *         description: Category updated
+ *       400:
+ *         description: Invalid data
  *       404:
- *         description: Categoria não encontrada
+ *         description: Category not found
  */
 router.put('/categories/:id', validateCategory, CategoryController.update);
 
@@ -233,7 +241,7 @@ router.put('/categories/:id', validateCategory, CategoryController.update);
  * @swagger
  * /categories/{id}:
  *   delete:
- *     summary: Deleta uma categoria
+ *     summary: Delete a category
  *     tags: [Categories]
  *     parameters:
  *       - in: path
@@ -241,11 +249,12 @@ router.put('/categories/:id', validateCategory, CategoryController.update);
  *         required: true
  *         schema:
  *           type: string
+ *         description: Category ID
  *     responses:
  *       204:
- *         description: Categoria deletada
+ *         description: Category deleted
  *       404:
- *         description: Categoria não encontrada
+ *         description: Category not found
  */
 router.delete('/categories/:id', CategoryController.delete);
 
