@@ -18,7 +18,8 @@ O ContactHub permite criar, visualizar, editar e excluir contatos, organizando-o
 - Dotenv
 - Swagger 
 
-### Frontend (em breve)
+### Frontend (em breve) 🚧
+- Vite
 
 ---
 
