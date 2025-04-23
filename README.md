@@ -67,6 +67,6 @@ http://localhost:3000/api-docs
 > O Swagger fornece uma interface interativa para explorar e testar todos os endpoints da API.
 
 ## 🧪 Testes
-A aplicação inclui testes automatizados para os controllers `ContactController` e `CategoryController`. Para mais detalhes sobre como executar os testes e sua estrutura, consulte o [link](https://github.com/Pegorara/ContactHub/blob/main/src/docs/backend-tests.md)
+A aplicação inclui testes automatizados para os controllers `ContactController` e `CategoryController`. Para mais detalhes sobre como executar os testes e sua estrutura, consulte o [link](https://github.com/Pegorara/ContactHub/blob/main/api/src/docs/backend-tests.md)
 
 
