@@ -15,11 +15,11 @@ export const Header = styled.header`
   }
 
   a {
-    color: #054d94;
+    color: ${({ theme }) => theme.colors.primary.main};
     font-size: 1rem;
     text-decoration: none;
     font-weight: bold;
-    border: 2px solid #054d94;
+    border: 2px solid ${({ theme }) => theme.colors.primary.main};
     padding: 0.5rem 1rem;
     border-radius: 4px;
   }
