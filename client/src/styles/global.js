@@ -6,11 +6,16 @@ export default createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
   }
 
   body {
     background: ${({ theme }) => theme.colors.background};
     font-size: 1rem;
     color: ${({ theme }) => theme.colors.gray[900]};
+  }
+
+  button {
+    cursor: pointer;
   }
 `;

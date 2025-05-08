@@ -95,7 +95,6 @@ export const Card = styled.div`
       background: transparent;
       border: none;
       margin-left: 0.5rem;
-      cursor: pointer;
     }
   }
 `;
