@@ -73,8 +73,9 @@ export const Card = styled.div`
         background: ${({ theme }) => theme.colors.primary.lighter};
         color: ${({ theme }) => theme.colors.primary.main};
         font-weight: bold;
+        font-size: 0.75rem;
         text-transform: uppercase;
-        padding: 0.25rem;
+        padding: 0 0.25rem;
         border-radius: 0.25rem;
         margin-left: 0.5rem;
       }

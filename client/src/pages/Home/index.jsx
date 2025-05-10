@@ -4,7 +4,7 @@ import arrow from '../../assets/icons/arrow.svg';
 import edit from '../../assets/icons/edit.svg';
 import trash from '../../assets/icons/trash.svg';
 
-export default function ContactsList() {
+export default function Home() {
   return (
     <Container>
       <Header>
@@ -22,8 +22,8 @@ export default function ContactsList() {
         <Card>
           <div className="info">
             <div className="contact-name">
-              <strong>Nome do Contato</strong>
-              <small>Contato</small>
+              <strong>Kennedy Pegorara</strong>
+              <small>Instagram</small>
             </div>
             <span>ken@hotmail.com</span>
             <span>(11) 91234-5678</span>
@@ -78,5 +78,5 @@ export default function ContactsList() {
         </Card>
       </ListContainer>
     </Container>
-  );
+  )
 }
